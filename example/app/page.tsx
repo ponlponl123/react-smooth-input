@@ -1,11 +1,12 @@
 "use client";
 
 // Import from the source during development
-import { Input } from "../../src/index";
 import { SetStateAction, useState } from "react";
+import { Input } from "../../src/index";
 
 export default function Home() {
   const [val, setVal] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
     <main
@@ -33,10 +34,22 @@ export default function Home() {
           <Input
             label="Live Test Input"
             placeholder="Type something..."
+            type="text"
             value={val}
             onChange={(e: { target: { value: SetStateAction<string> } }) =>
               setVal(e.target.value)
             }
+            className=""
+          />
+          <Input
+            label="Live Test Input (password)"
+            placeholder="Type something..."
+            type="password"
+            value={password}
+            onChange={(e: { target: { value: SetStateAction<string> } }) =>
+              setPassword(e.target.value)
+            }
+            className=""
           />
 
           <div style={{ display: "flex", gap: "10px" }}>
@@ -54,7 +67,8 @@ export default function Home() {
             borderRadius: "4px",
           }}
         >
-          <strong>Current Value:</strong> {val || "(empty)"}
+          <strong className="text-gray-700">Current Value:</strong>{" "}
+          {val || "(empty)"}
         </div>
       </div>
     </main>
