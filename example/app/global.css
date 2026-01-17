@@ -1,9 +1,9 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-body {
-    background-color: black;
-    color: white;
-    color-scheme: dark;
+@source "../../src/**/*.{js,ts,jsx,tsx}";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+.smooth-transition {
+  transition: 0.24s cubic-bezier(0.165, 0.84, 0.44, 1);
 }

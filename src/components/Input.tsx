@@ -1,27 +1,30 @@
 "use client";
 
+import clsx from "clsx";
 import { AnimatePresence } from "motion/react";
 import React from "react";
 import LegacyInput from "../core/input/LegacyInput";
 import MarkupInput from "../core/input/MarkupInput";
-import { InputFontStyle, InputProps } from "../types/input";
-
-const inputFontStyle: InputFontStyle = {
-  fontSize: "12px",
-  letterSpacing: "0.9px",
-  fontFamily: "system-ui, sans-serif",
-};
+import { InputComponentProps } from "../types/input";
 
 export const Input = ({
   label,
   style,
   value: controlledValue,
   defaultValue,
-  ...props
-}: InputProps) => {
+  fontStyle = {
+    fontSize: "12px",
+    letterSpacing: "0.9px",
+    fontFamily: "system-ui, sans-serif",
+  },
+  type = "text",
+  onChange,
+  classNames,
+  placeholder,
+}: InputComponentProps) => {
   const [focused, setFocused] = React.useState(false);
   const [internalValue, setInternalValue] = React.useState<string>(
-    (defaultValue as string) || ""
+    (defaultValue as string) || "",
   );
   const [selectionStart, setSelectionStart] = React.useState(0);
   const [selectionEnd, setSelectionEnd] = React.useState(0);
@@ -36,57 +39,44 @@ export const Input = ({
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "4px",
-        fontFamily: "system-ui, sans-serif",
-      }}
-    >
+    <div className={clsx("flex flex-col gap-1", classNames?.container)}>
       {label && (
-        <label style={{ fontSize: "14px", color: "#666" }}>{label}</label>
+        <label className={clsx("text-sm text-[#666]", classNames?.label)}>
+          {label}
+        </label>
       )}
       <div
-        style={{
-          width: "100%",
-          height: "auto",
-          border: "2px solid transparent",
-          backgroundColor: "#eeeeee20",
-          boxSizing: "border-box",
-          padding: "4px 8px",
-          display: "flex",
-          alignItems: "center",
-          borderRadius: "12px",
-          gap: "8px",
-          position: "relative",
-          userSelect: "none",
-          cursor: "text",
-          ...style,
-        }}
+        className={clsx(
+          "relative box-border flex h-auto w-full cursor-text select-none items-center gap-2 rounded-xl border-2 border-transparent dark:bg-[#eeeeee20] bg-black/10 px-2 py-1",
+          classNames?.inputWrapper,
+        )}
+        style={style}
       >
         <AnimatePresence>
           <MarkupInput
             focused={focused}
-            type={props.type}
+            type={type}
             value={String(value)}
             style={style}
-            inputFontStyle={inputFontStyle}
+            inputFontStyle={fontStyle}
             selectionStart={selectionStart}
             selectionEnd={selectionEnd}
+            classNames={classNames?.markupInput}
+            placeholder={placeholder}
           />
         </AnimatePresence>
         <LegacyInput
+          type={type}
           value={String(value)}
-          type={props.type}
-          inputFontStyle={inputFontStyle}
+          inputFontStyle={fontStyle}
           onValueChange={handleValueChange}
           onFocusChange={setFocused}
           onSelectionChange={(start, end) => {
             setSelectionStart(start);
             setSelectionEnd(end);
           }}
-          {...props}
+          onChange={onChange}
+          classNames={classNames?.legacyInput}
         />
       </div>
     </div>

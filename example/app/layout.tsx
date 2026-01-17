@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import "./global.css";
+import { ThemeBody } from "./ThemeBody";
 
 export const metadata: Metadata = {
   title: "Smooth Input Playground",
@@ -14,9 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body style={{ margin: 0, fontFamily: "system-ui, sans-serif" }}>
-        {children}
-      </body>
+      <ThemeBody>{children}</ThemeBody>
     </html>
   );
 }

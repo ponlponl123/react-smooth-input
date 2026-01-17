@@ -2,6 +2,11 @@
   "editor.quickSuggestions": {
     "strings": true
   },
+  "tailwindCSS.experimental.configFile": "example/app/global.css",
+  "tailwindCSS.includeLanguages": {
+    "typescriptreact": "javascript",
+    "javascriptreact": "javascript"
+  },
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]

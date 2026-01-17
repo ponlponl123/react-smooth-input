@@ -1,57 +1,51 @@
 "use client";
 
+import clsx from "clsx";
 import React, { forwardRef } from "react";
-import { InputFontStyle } from "../../types/input";
-
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
-}
+import { InputFontStyle, InputProps } from "../../types/input";
 
 const LegacyInput = forwardRef<
   HTMLInputElement,
   InputProps & {
     value: string;
+    type?: string;
     inputFontStyle?: InputFontStyle;
     onValueChange: (value: string) => void;
     onFocusChange: (focused: boolean) => void;
     onSelectionChange?: (start: number, end: number) => void;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    classNames?: string;
   }
 >(
   (
     {
       value,
+      type,
       onValueChange,
       onFocusChange,
       onSelectionChange,
       inputFontStyle,
+      onChange,
+      classNames,
       ...props
     },
-    ref
+    ref,
   ) => (
     <input
+      className={clsx(
+        "opacity-0 absolute w-full h-full z-1 border border-transparent outline-none bg-transparent p-0 m-0 box-border cursor-text caret-transparent pointer-events-auto",
+        classNames,
+      )}
       style={{
-        opacity: 0,
-        position: "absolute",
-        width: "100%",
-        height: "100%",
-        zIndex: 1,
-        border: "1px solid transparent",
-        outline: "none",
-        background: "transparent",
-        padding: 0,
-        margin: 0,
         ...inputFontStyle,
-        boxSizing: "border-box",
-        cursor: "text",
-        caretColor: "transparent",
       }}
       ref={ref}
       value={value}
       placeholder={props.placeholder}
-      type={props.type}
+      type={type}
       onChange={(e) => {
         onValueChange(e.target.value);
-        props.onChange?.(e);
+        onChange?.(e);
       }}
       onFocus={() => onFocusChange(true)}
       onBlur={() => onFocusChange(false)}
@@ -59,12 +53,12 @@ const LegacyInput = forwardRef<
         const target = e.currentTarget;
         onSelectionChange?.(
           target.selectionStart || 0,
-          target.selectionEnd || 0
+          target.selectionEnd || 0,
         );
       }}
       {...props}
     />
-  )
+  ),
 );
 
 export default LegacyInput;

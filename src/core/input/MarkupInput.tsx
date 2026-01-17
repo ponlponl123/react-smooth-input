@@ -1,8 +1,13 @@
 "use client";
 
+import clsx from "clsx";
 import { AnimatePresence, motion } from "motion/react";
 import React, { forwardRef, useLayoutEffect } from "react";
-import { InputFontStyle, InputType } from "../../types/input";
+import {
+  InputFontStyle,
+  InputType,
+  MarkupInputClassNames,
+} from "../../types/input";
 
 const MarkupInput = forwardRef<
   HTMLDivElement,
@@ -14,6 +19,8 @@ const MarkupInput = forwardRef<
     inputFontStyle?: InputFontStyle;
     selectionStart?: number;
     selectionEnd?: number;
+    classNames?: MarkupInputClassNames;
+    placeholder?: string;
   }
 >(
   (
@@ -25,8 +32,10 @@ const MarkupInput = forwardRef<
       inputFontStyle,
       selectionStart = 0,
       selectionEnd = 0,
+      classNames,
+      placeholder,
     },
-    ref
+    ref,
   ) => {
     const isTextSelected = selectionStart !== selectionEnd;
     const selectedLength = selectionEnd - selectionStart;
@@ -51,80 +60,65 @@ const MarkupInput = forwardRef<
     return (
       <div
         ref={ref}
-        style={{
-          position: "relative",
-        }}
+        className={clsx(
+          "relative w-full h-full rounded-md overflow-hidden",
+          classNames?.container,
+        )}
       >
         <div
-          style={{
-            width: "100%",
-            height: "100%",
-            position: "relative",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "start",
-          }}
+          className={clsx(
+            "w-full h-full relative flex items-center justify-start",
+            classNames?.base,
+          )}
         >
-          {value === "" && !focused && (
+          {value === "" && !focused && placeholder && (
             <motion.div
               layoutId={`${layoutIdBase}-input-placeholder`}
-              style={{
-                height: "100%",
-                position: "absolute",
-                top: 0,
-                left: 0,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "start",
-                overflow: "hidden",
-              }}
+              className={clsx(
+                "h-full absolute top-0 left-0 flex items-center justify-start overflow-hidden",
+                classNames?.placeholder?.wrapper,
+              )}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.32 }}
             >
               <span
+                className={clsx(
+                  "whitespace-nowrap text-ellipsis font-medium select-none pointer-events-none overflow-hidden opacity-20",
+                  classNames?.placeholder?.text,
+                )}
                 style={{
-                  color: "#aaaaaa60",
-                  whiteSpace: "nowrap",
-                  textOverflow: "ellipsis",
-                  fontWeight: 500,
                   ...inputFontStyle,
-                  userSelect: "none",
-                  pointerEvents: "none",
-                  overflow: "hidden",
                 }}
               >
-                Type something...
+                {placeholder}
               </span>
             </motion.div>
           )}
           <div
-            style={{
-              width: "100%",
-              height: "24px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "start",
-              overflow: "hidden",
-            }}
+            className={clsx(
+              "w-full h-full relative flex items-center justify-start",
+              classNames?.content?.wrapper,
+            )}
           >
             <motion.div
               layoutId={`${layoutIdBase}-input-content`}
-              style={{
-                height: "100%",
-                overflow: "hidden",
-                whiteSpace: "nowrap",
-                textOverflow: "ellipsis",
-              }}
+              className={clsx(
+                "h-full min-h-6 overflow-hidden whitespace-nowrap text-ellipsis",
+                classNames?.content?.value?.wrapper,
+              )}
             >
               <AnimatePresence initial={false} mode="sync">
                 {displayValue.split("").map((char, index) => (
                   <motion.span
                     key={`${char}-${index}`}
                     layoutId={`${layoutIdBase}-input-char-${index}`}
+                    className={clsx(
+                      "inline-block",
+                      classNames?.content?.value?.text,
+                    )}
                     style={{
-                      display: "inline-block",
                       minWidth: char === " " ? "0.25em" : "auto",
                       ...inputFontStyle,
                     }}
@@ -145,16 +139,18 @@ const MarkupInput = forwardRef<
             {focused && (
               <motion.div
                 layoutId={`${layoutIdBase}-input-cursor`}
+                className={clsx(
+                  "absolute flex items-center justify-center",
+                  isTextSelected
+                    ? classNames?.cursor?.wrapper?.isTextSelected
+                    : classNames?.cursor?.wrapper?.notSelected,
+                )}
                 style={{
-                  position: "absolute",
                   left: `${measuredLeft}px`,
                   width: isTextSelected
                     ? `${Math.max(measuredSelWidth, 3)}px`
                     : "3px",
                   height: "64%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
                 }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -169,32 +165,23 @@ const MarkupInput = forwardRef<
                     repeat: Infinity,
                     repeatType: "reverse",
                   }}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    backgroundColor: isTextSelected
-                      ? "rgba(255, 255, 255, 0.3)"
-                      : "white",
-                    borderRadius: isTextSelected ? "3px" : "6px",
-                    outlineColor: isTextSelected
-                      ? "rgba(255, 255, 255, 0.3)"
-                      : "transparent",
-                    outlineStyle: "solid",
-                    outlineWidth: "1px",
-                  }}
+                  className={clsx(
+                    "w-full h-full outline",
+                    isTextSelected
+                      ? "bg-black/30 dark:bg-white/30 outline-black/30 dark:outline-white/30 rounded-[3px]"
+                      : "outline-transparent bg-black dark:bg-white rounded-md",
+                    isTextSelected
+                      ? classNames?.cursor?.base?.isTextSelected
+                      : classNames?.cursor?.base?.notSelected,
+                  )}
                 />
               </motion.div>
             )}
           </div>
           <div
+            className="absolute invisible whitespace-nowrap p-0 m-0 pointer-events-none"
             style={{
-              position: "absolute",
-              visibility: "hidden",
-              whiteSpace: "nowrap",
               ...inputFontStyle,
-              padding: 0,
-              margin: 0,
-              pointerEvents: "none",
             }}
             aria-hidden="true"
           >
@@ -205,8 +192,8 @@ const MarkupInput = forwardRef<
                 .map((char, index) => (
                   <span
                     key={index}
+                    className="inline-block"
                     style={{
-                      display: "inline-block",
                       minWidth: char === " " ? "0.25em" : "auto",
                     }}
                   >
@@ -220,8 +207,8 @@ const MarkupInput = forwardRef<
                 .map((char, index) => (
                   <span
                     key={index}
+                    className="inline-block"
                     style={{
-                      display: "inline-block",
                       minWidth: char === " " ? "0.25em" : "auto",
                     }}
                   >
@@ -233,7 +220,7 @@ const MarkupInput = forwardRef<
         </div>
       </div>
     );
-  }
+  },
 );
 
 export default MarkupInput;
