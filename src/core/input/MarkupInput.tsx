@@ -2,12 +2,14 @@
 
 import clsx from "clsx";
 import { AnimatePresence, motion } from "motion/react";
-import React, { forwardRef, useLayoutEffect } from "react";
+import React, { forwardRef, useLayoutEffect, useMemo, useRef } from "react";
 import {
   InputFontStyle,
   InputType,
   MarkupInputClassNames,
 } from "../../types/input";
+import { findEditPosition, generateId } from "../../utils";
+import { AnimatedChar } from "./AnimatedChar";
 
 const MarkupInput = forwardRef<
   HTMLDivElement,
@@ -38,13 +40,67 @@ const MarkupInput = forwardRef<
     ref,
   ) => {
     const isTextSelected = selectionStart !== selectionEnd;
-    const selectedLength = selectionEnd - selectionStart;
     const layoutIdBase = React.useId();
 
-    const measurePreRef = React.useRef<HTMLSpanElement>(null);
-    const measureSelRef = React.useRef<HTMLSpanElement>(null);
+    const measurePreRef = useRef<HTMLSpanElement>(null);
+    const measureSelRef = useRef<HTMLSpanElement>(null);
     const [measuredLeft, setMeasuredLeft] = React.useState(0);
     const [measuredSelWidth, setMeasuredSelWidth] = React.useState(0);
+    const charIdsRef = useRef<number[]>([]);
+    const prevValueRef = useRef(value);
+
+    if (value !== prevValueRef.current) {
+      const prevValue = prevValueRef.current;
+      const prevIds = charIdsRef.current;
+
+      // Detect where the edit happened by comparing strings
+      const { position, added, removed } = findEditPosition(prevValue, value);
+
+      if (added > 0 && removed === 0) {
+        // Characters were added
+        const newIds = Array.from({ length: added }, () => generateId());
+        charIdsRef.current = [
+          ...prevIds.slice(0, position),
+          ...newIds,
+          ...prevIds.slice(position),
+        ];
+      } else if (removed > 0 && added === 0) {
+        // Characters were removed
+        charIdsRef.current = [
+          ...prevIds.slice(0, position),
+          ...prevIds.slice(position + removed),
+        ];
+      } else if (added > 0 && removed > 0) {
+        // Characters were replaced (e.g., paste over selection)
+        const newIds = Array.from({ length: added }, () => generateId());
+        charIdsRef.current = [
+          ...prevIds.slice(0, position),
+          ...newIds,
+          ...prevIds.slice(position + removed),
+        ];
+      }
+
+      prevValueRef.current = value;
+    }
+
+    // Ensure we have IDs for all characters (handles initial render and edge cases)
+    if (charIdsRef.current.length < value.length) {
+      const needed = value.length - charIdsRef.current.length;
+      for (let i = 0; i < needed; i++) {
+        charIdsRef.current.push(generateId());
+      }
+    } else if (charIdsRef.current.length > value.length) {
+      charIdsRef.current.length = value.length;
+    }
+
+    // Memoize display value
+    const displayValue = useMemo(
+      () => (type === "password" ? "•".repeat(value.length) : value),
+      [type, value],
+    );
+
+    // Memoize character IDs array for stable reference
+    const charIds = charIdsRef.current;
 
     useLayoutEffect(() => {
       const pre = measurePreRef.current;
@@ -53,9 +109,7 @@ const MarkupInput = forwardRef<
         setMeasuredLeft(pre.getBoundingClientRect().width);
         setMeasuredSelWidth(sel.getBoundingClientRect().width);
       }
-    }, [value, selectionStart, selectionEnd]);
-
-    const displayValue = type === "password" ? "•".repeat(value.length) : value;
+    }, [displayValue, selectionStart, selectionEnd]);
 
     return (
       <div
@@ -102,40 +156,24 @@ const MarkupInput = forwardRef<
               classNames?.content?.wrapper,
             )}
           >
-            <motion.div
-              layoutId={`${layoutIdBase}-input-content`}
+            <div
               className={clsx(
                 "h-full min-h-6 overflow-hidden whitespace-nowrap text-ellipsis",
                 classNames?.content?.value?.wrapper,
               )}
             >
-              <AnimatePresence initial={false} mode="sync">
+              <AnimatePresence initial={false} mode="popLayout">
                 {displayValue.split("").map((char, index) => (
-                  <motion.span
-                    key={`${char}-${index}`}
-                    layoutId={`${layoutIdBase}-input-char-${index}`}
-                    className={clsx(
-                      "inline-block",
-                      classNames?.content?.value?.text,
-                    )}
-                    style={{
-                      minWidth: char === " " ? "0.25em" : "auto",
-                      ...inputFontStyle,
-                    }}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{
-                      opacity: 0,
-                      y: 16,
-                      rotateZ: Math.random() * 40 - 20,
-                    }}
-                    transition={{ duration: 0.12 }}
-                  >
-                    {char}
-                  </motion.span>
+                  <AnimatedChar
+                    key={charIds[index]}
+                    char={char}
+                    charId={charIds[index]}
+                    className={classNames?.content?.value?.text}
+                    style={inputFontStyle}
+                  />
                 ))}
               </AnimatePresence>
-            </motion.div>
+            </div>
             {focused && (
               <motion.div
                 layoutId={`${layoutIdBase}-input-cursor`}
