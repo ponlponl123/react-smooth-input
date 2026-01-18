@@ -86,13 +86,13 @@ export default function Home() {
               <div className="flex items-center justify-between flex-1 gap-2.5">
                 <button
                   className="smooth-transition py-3 px-4 bg-cyan-600 text-white w-full rounded-xl font-semibold text-sm hover:opacity-75 active:scale-[0.98] active:duration-75"
-                  onClick={() => alert(`Value is: ${val}`)}
+                  onClick={() => alert(`Value is: ${val2}`)}
                 >
                   Sign in
                 </button>
                 <button
                   className="smooth-transition py-3 px-4 bg-black/10 dark:bg-white/10 w-full rounded-xl font-semibold text-sm hover:opacity-75 active:scale-[0.98] active:duration-75"
-                  onClick={() => setVal("")}
+                  onClick={() => setVal2("")}
                 >
                   Clear
                 </button>
