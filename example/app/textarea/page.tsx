@@ -11,7 +11,7 @@ function TextArea() {
       </p>
       <div className="flex items-center gap-3 mt-6">
         <a
-          href="https://github.com/ponlponl123/smooth-input/fork"
+          href="https://github.com/ponlponl123/react-smooth-input/fork"
           target="_blank"
         >
           <Button className="w-max bg-green-800 hover:bg-green-700 hover:dark:bg-green-900 text-white">
@@ -20,7 +20,7 @@ function TextArea() {
         </a>
         <span className="text-xs opacity-20">OR</span>
         <a
-          href="https://github.com/ponlponl123/smooth-input/compare"
+          href="https://github.com/ponlponl123/react-smooth-input/compare"
           target="_blank"
         >
           <Button className="w-max bg-purple-900 hover:bg-purple-700 hover:dark:bg-purple-950 text-white">

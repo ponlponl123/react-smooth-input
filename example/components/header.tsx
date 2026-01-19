@@ -7,7 +7,7 @@ function Header() {
         <div>
           <h1 className="text-3xl font-bold">Smooth Input Playground</h1>
           <div className="text-gray-600">
-            A playground to test the smooth-input library.
+            A playground to test the react-smooth-input library.
           </div>
         </div>
         <button

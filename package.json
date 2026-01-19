@@ -1,5 +1,5 @@
 {
-  "name": "smooth-input",
+  "name": "react-smooth-input",
   "version": "0.1.0",
   "description": "A smooth input component library for Next.js",
   "main": "dist/index.js",

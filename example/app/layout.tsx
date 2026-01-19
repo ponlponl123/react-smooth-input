@@ -8,7 +8,7 @@ import { ThemeBody } from "./ThemeBody";
 
 export const metadata: Metadata = {
   title: "Smooth Input Playground",
-  description: "Dev playground for smooth-input library",
+  description: "Dev playground for react-smooth-input library",
 };
 
 export default function RootLayout({

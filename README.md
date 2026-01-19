@@ -1,17 +1,17 @@
-# smooth-input
+# react-smooth-input
 
 A smooth, modern React component library built for Next.js.
 
 ## Installation
 
 ```bash
-npm install smooth-input
+npm install react-smooth-input
 ```
 
 ## Usage
 
 ```tsx
-import { Button, Input } from "smooth-input";
+import { Button, Input } from "react-smooth-input";
 
 export default function Page() {
   return (

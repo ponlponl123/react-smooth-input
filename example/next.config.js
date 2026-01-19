@@ -2,9 +2,9 @@
 const isProd = process.env.NODE_ENV === "production";
 
 const nextConfig = {
-  transpilePackages: ["smooth-input"],
+  transpilePackages: ["react-smooth-input"],
   output: "export",
-  basePath: isProd ? "/smooth-input" : "",
+  basePath: isProd ? "/react-smooth-input" : "",
   images: {
     unoptimized: true, // Required for static export
   },

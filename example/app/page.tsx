@@ -28,11 +28,11 @@ export default function Home() {
         </div>
       </div>
       <div className="w-full max-w-xl rounded-2xl p-6 mx-auto bg-black/10 dark:bg-white/10 backdrop-blur-2xl backdrop-saturate-200">
-        <h1 className="text-xl font-bold">With smooth-input</h1>
+        <h1 className="text-xl font-bold">With react-smooth-input</h1>
         <p className="mt-2 text-sm opacity-70">
-          Experience the future of text input with smooth-input! Enjoy seamless
-          typing, enhanced aesthetics, and unparalleled responsiveness. Dive in
-          and feel the difference!
+          Experience the future of text input with react-smooth-input! Enjoy
+          seamless typing, enhanced aesthetics, and unparalleled responsiveness.
+          Dive in and feel the difference!
         </p>
 
         <div className="mt-4">
@@ -48,13 +48,13 @@ export default function Home() {
       <section className="my-6">
         <h1 className="font-bold text-2xl mb-4">Example</h1>
         <p className="text-sm opacity-40 mb-4">
-          A demo sign-in card built with smooth-input
+          A demo sign-in card built with react-smooth-input
         </p>
         <div className="w-full relative border-2 border-black/10 dark:border-white/10 rounded-3xl p-12">
           <div className="p-6 border-2 border-gray-200 dark:bg-white/10 dark:border-transparent rounded-3xl max-w-md w-full mx-auto smooth-transition">
             <h2 className="font-bold text-2xl mb-1">👋 Welcome aboard!</h2>
             <p className="opacity-40 text-sm font-semibold">
-              *Demo sign in card with smooth-input
+              *Demo sign in card with react-smooth-input
             </p>
             <br />
             <div className="flex flex-col gap-4">
