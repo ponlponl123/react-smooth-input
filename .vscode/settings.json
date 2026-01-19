@@ -2,7 +2,7 @@
   "editor.quickSuggestions": {
     "strings": true
   },
-  "tailwindCSS.experimental.configFile": "example/app/global.css",
+  "tailwindCSS.experimental.configFile": "web/styles/global.css",
   "tailwindCSS.includeLanguages": {
     "typescriptreact": "javascript",
     "javascriptreact": "javascript"
@@ -29,5 +29,8 @@
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
   }
 }

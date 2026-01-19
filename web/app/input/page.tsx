@@ -1,20 +1,27 @@
 "use client";
 
 // Import from the source during development
+import Accordion from "@/components/accordion";
 import Chip from "@/components/chip";
 import Code from "@/components/code";
-import { MagnifyingGlassIcon } from "@phosphor-icons/react/dist/ssr";
+import {
+  FileTsxIcon,
+  MagnifyingGlassIcon,
+} from "@phosphor-icons/react/dist/ssr";
 import { SetStateAction, useState } from "react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus as dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Input } from "../../../src/index";
 
 export default function Home() {
   const [val1, setVal1] = useState("");
   const [val2, setVal2] = useState("");
   const [val, setVal] = useState("");
+  const [showCode, setShowCode] = useState(false);
 
   return (
     <main className="max-w-150 mx-auto p-5 flex flex-col gap-5">
-      <div className="p-6 border-2 mb-6 smooth-transition">
+      <div className="p-6 border-2 smooth-transition">
         <h1>Normal Input</h1>
         <p className="text-sm text-gray-600">
           This is a standard HTML input for comparison.
@@ -28,7 +35,31 @@ export default function Home() {
             onChange={(e) => setVal1(e.target.value)}
           />
         </div>
+        <div className="mt-4">
+          <button
+            className="classic-btn"
+            onClick={() => setShowCode(!showCode)}
+          >
+            {showCode ? "Hide" : "Show"} Code
+          </button>
+          {showCode && (
+            <div className="mt-4">
+              <SyntaxHighlighter
+                language="tsx"
+                showLineNumbers={false}
+                wrapLines={false}
+                style={dark}
+              >
+                {`<input
+  type="text"
+  placeholder="Type something..."
+/>`}
+              </SyntaxHighlighter>
+            </div>
+          )}
+        </div>
       </div>
+      <span className="mx-auto font-semibold text-sm opacity-30">VS</span>
       <div className="w-full max-w-xl rounded-2xl p-6 mx-auto bg-black/5 dark:bg-white/10 backdrop-blur-2xl backdrop-saturate-200">
         <h1 className="text-xl font-bold">With react-smooth-input</h1>
         <p className="mt-2 text-sm opacity-70">
@@ -39,12 +70,35 @@ export default function Home() {
 
         <div className="mt-4">
           <Input
-            placeholder="Type here..."
+            placeholder="Type something..."
             type="text"
             value={val1}
             onChange={(e) => setVal1(e.target.value)}
           />
         </div>
+        <Accordion
+          title="Show Code"
+          classNames={{ container: "mt-4 mb-0!", button: "w-max gap-2" }}
+        >
+          <Code
+            tabs={[
+              {
+                title: "Code Example",
+                icon: <FileTsxIcon weight="fill" size={20} />,
+                codeString: `<Input
+  placeholder="Type something..."
+  type="text"
+  value={val1}
+  onChange={(e) => setVal1(e.target.value)}
+/>`,
+                language: "tsx",
+              },
+            ]}
+            showLineNumbers={false}
+            wrapLines={false}
+            darkMode={true}
+          />
+        </Accordion>
       </div>
 
       <section className="my-6">
@@ -115,21 +169,37 @@ export default function Home() {
           Get started in minutes with a simple and intuitive API.
         </p>
         <Code
-          language="tsx"
+          tabs={[
+            {
+              icon: <FileTsxIcon weight="fill" size={20} />,
+              title: "page.tsx",
+              codeString: `import { Input } from "react-smooth-input";
+
+export default function Page() {
+  return (
+    <div>
+      <Input 
+        label="I&apos;m a label!" 
+        placeholder="Type here..." 
+      />
+    </div>
+  );
+}`,
+              language: "tsx",
+            },
+          ]}
           showLineNumbers={false}
           wrapLines={false}
           darkMode={true}
-          codeString={`<Input
-  label="Label"
-  placeholder="Type here..."
-  type="text"
-  value={val}
-  onChange={(e) => setVal(e.target.value)}
-/>`}
         />
         <br />
         <h2 className="font-semibold text-xl mb-2">Result</h2>
-        <Input placeholder="Type here..." type="text" className="" />
+        <Input
+          label="I'm a label!"
+          placeholder="Type here..."
+          type="text"
+          className=""
+        />
       </section>
 
       <section className="my-6">
@@ -139,15 +209,30 @@ export default function Home() {
           input field.
         </p>
         <Code
-          language="tsx"
+          tabs={[
+            {
+              title: "page.tsx",
+              icon: <FileTsxIcon weight="fill" size={20} />,
+              codeString: `import { Input } from "react-smooth-input";
+
+export default function Page() {
+  return (
+    <div>
+      <Input 
+        label="Input with Icons" 
+        placeholder="Type here..." 
+        startContent={<icon />}
+        endContent={<icon />}
+      />
+    </div>
+  );
+}`,
+              language: "tsx",
+            },
+          ]}
           showLineNumbers={false}
           wrapLines={false}
           darkMode={true}
-          codeString={`<Input
-  ...
-  startContent={<icon />}
-  endContent={<icon />}
-/>`}
         />
         <br />
         <div className="w-full relative border-2 border-black/10 dark:border-white/10 rounded-3xl px-12 py-24">

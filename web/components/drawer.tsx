@@ -24,14 +24,39 @@ function Drawer() {
             Introduction
           </Button>
         </Link>
+        <Link href="/installation">
+          <Button isActive={pathname === "/installation"} className="w-full">
+            Installation
+          </Button>
+        </Link>
       </Accordion>
-      <Accordion title="Frameworks" classNames={accordionClassNames}>
-        <span className="text-xs">soon...</span>
+      <Accordion
+        title="Frameworks"
+        classNames={accordionClassNames}
+        defaultOpen={true}
+      >
+        <Link href="/frameworks/nextjs">
+          <Button
+            isActive={pathname === "/frameworks/nextjs"}
+            className="w-full"
+          >
+            Next.js
+          </Button>
+        </Link>
+        <Link href="/frameworks/vite">
+          <Button isActive={pathname === "/frameworks/vite"} className="w-full">
+            Vite
+          </Button>
+        </Link>
       </Accordion>
       <Accordion title="Customization" classNames={accordionClassNames}>
         <span className="text-xs">soon...</span>
       </Accordion>
-      <Accordion title="Components" classNames={accordionClassNames}>
+      <Accordion
+        title="Components"
+        classNames={accordionClassNames}
+        defaultOpen={true}
+      >
         <Link href="/input">
           <Button isActive={pathname === "/input"} className="w-full">
             Input

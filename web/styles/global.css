@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@import "./gradient-backdrop.css";
+
+@source "../../src/**/*.{js,ts,jsx,tsx}";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+.smooth-transition {
+  transition: 0.24s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.classic-btn {
+  @apply text-xs px-2 py-1 bg-black/10 border rounded-sm dark:bg-white/20 dark:border-white/20 hover:bg-black/15 active:opacity-60 hover:dark:bg-white/30 hover:dark:border-white/30 active:dark:brightness-75 active:dark:opacity-100;
+}

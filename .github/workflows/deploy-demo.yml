@@ -24,17 +24,17 @@ jobs:
       - name: Install root dependencies
         run: npm install
 
-      - name: Install example dependencies
+      - name: Install web dependencies
         run: npm install
-        working-directory: ./example
+        working-directory: ./web
 
       - name: Build the project
         run: npm run build
-        working-directory: ./example
+        working-directory: ./web
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./example/out
+          publish_dir: ./web/out
           publish_branch: gh-pages

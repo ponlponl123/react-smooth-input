@@ -1,22 +1,38 @@
 "use client";
-
 import packageJson from "../../package.json";
+
+import { PersonSimpleSnowboardIcon } from "@phosphor-icons/react/dist/ssr";
+import { useMediaQuery } from "react-responsive";
 import Button from "./button";
 import Chip from "./chip";
 
 function Header() {
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 640px)" });
   return (
     <header className="py-4 px-6 max-w-7xl mx-auto">
       <div className="flex justify-between">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-base font-bold">react-smooth-input</h1>
-            <Chip className="text-xs font-semibold">
-              v{packageJson.version}
-            </Chip>
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-black dark:bg-white rounded-lg text-white dark:text-black flex items-center justify-center">
+            <PersonSimpleSnowboardIcon weight="fill" size={16} />
           </div>
-          <div className="text-gray-600 text-xs">
-            A playground to test the react-smooth-input library.
+          <div>
+            <div className="flex items-center gap-2">
+              <h1 className="text-base font-bold">react-smooth-input</h1>
+              {!isTabletOrMobile && (
+                <Chip className="text-xs font-semibold">
+                  v{packageJson.version}
+                </Chip>
+              )}
+            </div>
+            {isTabletOrMobile ? (
+              <Chip className="text-xs font-semibold">
+                v{packageJson.version}
+              </Chip>
+            ) : (
+              <div className="text-gray-600 text-xs">
+                A playground to test the react-smooth-input library.
+              </div>
+            )}
           </div>
         </div>
 
@@ -25,6 +41,7 @@ function Header() {
             href="https://github.com/ponlponl123/react-smooth-input"
             target="_blank"
             rel="noopener noreferrer"
+            className="max-sm:hidden"
           >
             <Button className="smooth-transition p-2 h-max gap-2 hover:bg-black/20 hover:dark:bg-white/20 rounded-full border-2 dark:border-white/40 border-black/20 hover:opacity-80">
               <svg

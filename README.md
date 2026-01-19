@@ -59,7 +59,7 @@ export default function Page() {
 
 ## Live Development (Playground)
 
-To see your changes live, I've included a Next.js example app in the `example` folder.
+To see your changes live, I've included a Next.js web app in the `web` folder.
 
 1. **Terminal 1**: Start the library builder in watch mode:
 
@@ -67,15 +67,15 @@ To see your changes live, I've included a Next.js example app in the `example` f
    npm run dev
    ```
 
-2. **Terminal 2**: Start the example app:
+2. **Terminal 2**: Start the web app:
 
    ```bash
-   cd example
+   cd web
    npm install
    npm run dev
    ```
 
-3. Open [http://localhost:3000](http://localhost:3000) to see your components in action. Any changes you make to `src/` will rebuild and update the example app.
+3. Open [http://localhost:3000](http://localhost:3000) to see your components in action. Any changes you make to `src/` will rebuild and update the web app.
 
 ## Stack
 

@@ -1,3 +1,6 @@
+import Link from "next/link";
+import Chip from "./chip";
+
 function Footer() {
   return (
     <footer>
@@ -35,7 +38,22 @@ function Footer() {
           </a>
           .
         </p>
+
+        <div className="flex flex-wrap gap-3 mt-3">
+          <Link
+            href="https://github.com/phosphor-icons/react"
+            target="_blank"
+            className="smooth-transition hover:opacity-80 active:scale-[0.98] active:duration-75"
+          >
+            <Chip className="text-xs font-semibold">
+              💚 Icons by Phosphor Icons
+            </Chip>
+          </Link>
+        </div>
       </section>
+      <span className="block text-xs text-center mx-auto mb-12 opacity-15 font-light tracking-widest">
+        © {new Date().getFullYear()} ponlponl123. All rights reserved.
+      </span>
     </footer>
   );
 }
