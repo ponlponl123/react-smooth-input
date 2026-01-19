@@ -65,7 +65,7 @@ export const Input = ({
         {startContent && <div className="mr-1">{startContent}</div>}
         <div
           className={clsx(
-            "relative flex flex-1 min-h-[1.5em] box-border",
+            "relative flex flex-1 min-w-0 overflow-hidden min-h-[1.5em] box-border",
             classNames?.inputWrapper,
           )}
         >

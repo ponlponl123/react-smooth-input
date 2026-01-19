@@ -44,8 +44,13 @@ const MarkupInput = forwardRef<
 
     const measurePreRef = useRef<HTMLSpanElement>(null);
     const measureSelRef = useRef<HTMLSpanElement>(null);
+    const measureFullRef = useRef<HTMLSpanElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const [measuredLeft, setMeasuredLeft] = React.useState(0);
     const [measuredSelWidth, setMeasuredSelWidth] = React.useState(0);
+    const [scrollOffset, setScrollOffset] = React.useState(0);
+    const [contentWidth, setContentWidth] = React.useState(0);
+    const [containerWidth, setContainerWidth] = React.useState(0);
     const charIdsRef = useRef<number[]>([]);
     const prevValueRef = useRef(value);
 
@@ -105,11 +110,60 @@ const MarkupInput = forwardRef<
     useLayoutEffect(() => {
       const pre = measurePreRef.current;
       const sel = measureSelRef.current;
-      if (pre && sel) {
-        setMeasuredLeft(pre.getBoundingClientRect().width);
-        setMeasuredSelWidth(sel.getBoundingClientRect().width);
+      const full = measureFullRef.current;
+      const container = containerRef.current;
+      if (pre && sel && full && container) {
+        const preWidth = pre.getBoundingClientRect().width;
+        const selWidth = sel.getBoundingClientRect().width;
+        const fullWidth = full.getBoundingClientRect().width;
+        const cWidth = container.getBoundingClientRect().width;
+
+        setMeasuredLeft(preWidth);
+        setMeasuredSelWidth(selWidth);
+        setContainerWidth(cWidth);
+        setContentWidth(fullWidth);
+
+        // Calculate scroll offset to keep cursor visible
+        // Use cursor position (preWidth) for non-selection, or selection end for selection
+        const cursorPosition = isTextSelected ? preWidth + selWidth : preWidth;
+        const cursorWidth = 3; // Width of the cursor element
+        const padding = 8; // Padding when scrolling to a new position
+
+        setScrollOffset((prevOffset) => {
+          const cursorLeftInView = preWidth - prevOffset;
+          const cursorRightInView = cursorPosition + cursorWidth - prevOffset;
+
+          // Only scroll when cursor is truly outside the visible area
+          // This prevents unwanted scrolling when clicking on already visible text
+          if (cursorRightInView > cWidth) {
+            // Cursor is past the right edge, scroll right with padding
+            return cursorPosition + cursorWidth - cWidth + padding;
+          } else if (cursorLeftInView < 0) {
+            // Cursor is past the left edge, scroll left with padding
+            return Math.max(0, preWidth - padding);
+          }
+          return prevOffset;
+        });
       }
-    }, [displayValue, selectionStart, selectionEnd]);
+    }, [displayValue, selectionStart, selectionEnd, isTextSelected]);
+
+    // Calculate gradient mask based on overflow
+    const hasOverflowLeft = scrollOffset > 0;
+    const hasOverflowRight = contentWidth - scrollOffset > containerWidth;
+    const gradientSize = 16; // Size of fade gradient in pixels
+
+    const maskGradient = useMemo(() => {
+      if (!hasOverflowLeft && !hasOverflowRight) {
+        return undefined;
+      }
+      const leftGradient = hasOverflowLeft
+        ? `linear-gradient(to right, transparent, black ${gradientSize}px)`
+        : "linear-gradient(to right, black, black)";
+      const rightGradient = hasOverflowRight
+        ? `linear-gradient(to left, transparent, black ${gradientSize}px)`
+        : "linear-gradient(to left, black, black)";
+      return `${leftGradient}, ${rightGradient}`;
+    }, [hasOverflowLeft, hasOverflowRight]);
 
     return (
       <div
@@ -151,16 +205,27 @@ const MarkupInput = forwardRef<
             </motion.div>
           )}
           <div
+            ref={containerRef}
             className={clsx(
-              "w-full h-full relative flex items-center justify-start",
+              "w-full h-full relative flex items-center justify-start overflow-hidden",
               classNames?.content?.wrapper,
             )}
+            style={{
+              maskImage: maskGradient,
+              maskComposite: maskGradient ? "intersect" : undefined,
+              WebkitMaskImage: maskGradient,
+              WebkitMaskComposite: maskGradient ? "source-in" : undefined,
+            }}
           >
             <div
               className={clsx(
-                "h-full min-h-6 overflow-hidden whitespace-nowrap text-ellipsis",
+                "h-full min-h-6 whitespace-nowrap",
                 classNames?.content?.value?.wrapper,
               )}
+              style={{
+                transform: `translateX(${-scrollOffset}px)`,
+                transition: "transform 0.1s ease-out",
+              }}
             >
               <AnimatePresence initial={false} mode="popLayout">
                 {displayValue.split("").map((char, index) => (
@@ -184,7 +249,7 @@ const MarkupInput = forwardRef<
                     : classNames?.cursor?.wrapper?.notSelected,
                 )}
                 style={{
-                  left: `${measuredLeft}px`,
+                  left: `${measuredLeft - scrollOffset}px`,
                   width: isTextSelected
                     ? `${Math.max(measuredSelWidth, 3)}px`
                     : "3px",
@@ -253,6 +318,19 @@ const MarkupInput = forwardRef<
                     {char}
                   </span>
                 ))}
+            </span>
+            <span ref={measureFullRef}>
+              {displayValue.split("").map((char, index) => (
+                <span
+                  key={index}
+                  className="inline-block"
+                  style={{
+                    minWidth: char === " " ? "0.25em" : "auto",
+                  }}
+                >
+                  {char}
+                </span>
+              ))}
             </span>
           </div>
         </div>
