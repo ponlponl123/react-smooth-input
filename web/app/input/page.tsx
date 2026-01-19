@@ -86,10 +86,8 @@ export default function Home() {
                 title: "Code Example",
                 icon: <FileTsxIcon weight="fill" size={20} />,
                 codeString: `<Input
-  placeholder="Type something..."
   type="text"
-  value={val1}
-  onChange={(e) => setVal1(e.target.value)}
+  placeholder="Type something..."
 />`,
                 language: "tsx",
               },
@@ -221,6 +219,7 @@ export default function Page() {
       <Input 
         label="Input with Icons" 
         placeholder="Type here..." 
+        ...
         startContent={<icon />}
         endContent={<icon />}
       />
