@@ -6,8 +6,9 @@ import React from "react";
 import LegacyInput from "../core/input/LegacyInput";
 import MarkupInput from "../core/input/MarkupInput";
 import { InputComponentProps } from "../types/input";
+import { createContext } from "../utils/context";
 
-export const InputContext = React.createContext<{}>({});
+export const [InputContextProvider, useInputContext] = createContext<{}>({});
 
 export const Input = ({
   label,
@@ -44,6 +45,7 @@ export const Input = ({
   };
 
   return (
+    <InputContextProvider.Provider value={{}}>
     <div
       className={clsx("flex flex-col gap-1", className, classNames?.container)}
     >
@@ -99,5 +101,6 @@ export const Input = ({
         {endContent && <div className="ml-1">{endContent}</div>}
       </div>
     </div>
+    </InputContextProvider.Provider>
   );
 };

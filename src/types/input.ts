@@ -36,17 +36,34 @@ export interface InputClassNames {
 
 export type InputType = "text" | "password";
 
-export interface InputComponentProps extends InputProps {
-  fontStyle?: InputFontStyle;
-  classNames?: InputClassNames;
-  startContent?: React.ReactNode;
-  endContent?: React.ReactNode;
-}
+export type InputComponentProps =
+  | InputProps
+  | (InputProps & {
+      type: "password";
+      isPasswordShowable?: boolean;
+      fontStyle?: InputFontStyle;
+      classNames?: InputClassNames;
+      startContent?: React.ReactNode;
+      endContent?: never;
+    })
+  | (InputProps & {
+      type: "password";
+      isPasswordShowable: true;
+      isShowingPassword?: boolean;
+      fontStyle?: InputFontStyle;
+      classNames?: InputClassNames;
+      startContent?: React.ReactNode;
+      endContent?: never;
+    });
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   placeholder?: string;
   type: InputType;
+  fontStyle?: InputFontStyle;
+  classNames?: InputClassNames;
+  startContent?: React.ReactNode;
+  endContent?: React.ReactNode;
 }
 
 export interface InputFontStyle extends React.CSSProperties {
