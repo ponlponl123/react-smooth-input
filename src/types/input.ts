@@ -50,7 +50,9 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 }
 
 export interface InputFontStyle extends React.CSSProperties {
-  fontSize: string;
-  letterSpacing: string;
-  fontFamily: string;
+  fontSize?: string;
+  fontFamily?: string;
+  fontWeight?: string;
+  lineHeight?: string;
+  letterSpacing?: string;
 }

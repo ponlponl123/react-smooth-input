@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./gradient-backdrop.css";
 
 @source "../../src/**/*.{js,ts,jsx,tsx}";
 

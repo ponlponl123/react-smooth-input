@@ -42,6 +42,7 @@ function Accordion({
               : "",
             classNames?.button,
           )}
+          data-open={isOpen}
           onClick={toggleAccordion}
         >
           <h2 className={clsx("flex-1", classNames?.title)}>{title}</h2>

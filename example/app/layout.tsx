@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import NextTopLoader from "nextjs-toploader";
+import { ThemeBody } from "./ThemeBody";
 
 import Drawer from "@/components/drawer";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-import "./global.css";
-import { ThemeBody } from "./ThemeBody";
+import "../styles/global.css";
 
 export const metadata: Metadata = {
   title: "Smooth Input Playground",
@@ -17,9 +18,48 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = document.cookie.match('(^|;)\\\\s*theme\\\\s*=\\\\s*([^;]+)')?.pop() || '';
+                  var localTheme = localStorage.getItem('theme');
+                  var support = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  
+                  if (theme === 'dark' || (!theme && localTheme === 'dark') || (!theme && !localTheme && support)) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+              html { background: #fff; }
+              html.dark { background: #000; }
+            `,
+          }}
+        />
+      </head>
       <ThemeBody>
+        <NextTopLoader />
         <Header />
+        <div
+          id="gradient-backdrop"
+          className="fixed w-full h-full top-0 left-0 overflow-hidden pointer-events-none"
+        >
+          <div className="smooth-transition" />
+          <div className="smooth-transition" />
+          <div className="smooth-transition" />
+          <div className="smooth-transition" />
+        </div>
         <main id="layout-main" className="flex max-w-7xl mx-auto">
           <Drawer />
           <div id="layout-content" className="flex-1 p-10">

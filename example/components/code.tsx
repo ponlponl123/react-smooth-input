@@ -19,9 +19,12 @@ function Code({
   className?: string;
   classNames?: {
     container?: string;
-    button?: string;
-    icon?: string;
-    title?: string;
+    title?: {
+      container?: string;
+      text?: string;
+      button?: string;
+      icon?: string;
+    };
     content?: string;
   };
   showLineNumbers?: boolean;
@@ -29,11 +32,18 @@ function Code({
   darkMode?: boolean;
 }) {
   return (
-    <div className="flex flex-col">
-      <div className="p-3 flex items-center justify-between px-4 bg-black/10 dark:bg-white/10 rounded-t-lg">
-        <h1 className="text-xs font-semibold">Code Example</h1>
+    <div className={clsx("flex flex-col", classNames?.container)}>
+      <div
+        className={clsx(
+          "p-3 flex items-center justify-between px-4 bg-black/10 dark:bg-white/10 rounded-t-lg",
+          classNames?.title?.container,
+        )}
+      >
+        <h1 className={clsx("text-xs font-semibold", classNames?.title?.text)}>
+          Code Example
+        </h1>
         <Button
-          className={"-m-1 text-xs"}
+          className={clsx("-m-1 text-xs", classNames?.title?.button)}
           isOnlyIcon={true}
           onClick={() => {
             navigator.clipboard.writeText(codeString);

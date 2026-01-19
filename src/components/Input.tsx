@@ -16,8 +16,10 @@ export const Input = ({
   defaultValue,
   fontStyle = {
     fontSize: "12px",
-    letterSpacing: "0.9px",
     fontFamily: "system-ui, sans-serif",
+    fontWeight: "500",
+    lineHeight: "1.5",
+    letterSpacing: "0.9px",
   },
   type = "text",
   onChange,

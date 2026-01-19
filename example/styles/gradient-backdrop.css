@@ -1,0 +1,111 @@
+#gradient-backdrop {
+  div {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    filter: blur(200px);
+    animation: gradient-move 20s infinite alternate;
+  }
+
+  div:nth-child(1) {
+    top: -200px;
+    left: -200px;
+    animation-delay: 0s;
+  }
+
+  div:nth-child(2) {
+    top: -100px;
+    right: -150px;
+    animation-delay: 5s;
+  }
+
+  div:nth-child(3) {
+    bottom: -150px;
+    left: -100px;
+    animation-delay: 10s;
+  }
+
+  div:nth-child(4) {
+    bottom: -200px;
+    right: -200px;
+    animation-delay: 15s;
+  }
+}
+
+html.dark #gradient-backdrop {
+  div:nth-child(1) {
+    background: radial-gradient(
+      circle at center,
+      rgba(139, 92, 246, 0.3),
+      rgba(139, 92, 246, 0) 60%
+    );
+  }
+  div:nth-child(2) {
+    background: radial-gradient(
+      circle at center,
+      rgba(236, 72, 153, 0.3),
+      rgba(236, 72, 153, 0) 60%
+    );
+  }
+  div:nth-child(3) {
+    background: radial-gradient(
+      circle at center,
+      rgba(59, 130, 246, 0.3),
+      rgba(59, 130, 246, 0) 60%
+    );
+  }
+  div:nth-child(4) {
+    background: radial-gradient(
+      circle at center,
+      rgba(254, 211, 102, 0.3),
+      rgba(254, 211, 102, 0) 60%
+    );
+  }
+}
+
+html:not(.dark) #gradient-backdrop {
+  div:nth-child(1) {
+    background: radial-gradient(
+      circle at center,
+      rgba(5, 94, 146, 0.76),
+      rgba(99, 102, 241, 0) 60%
+    );
+  }
+  div:nth-child(2) {
+    background: radial-gradient(
+      circle at center,
+      rgba(197, 24, 91, 0.76),
+      rgba(236, 72, 153, 0) 60%
+    );
+  }
+  div:nth-child(3) {
+    background: radial-gradient(
+      circle at center,
+      rgba(145, 205, 254, 0.76),
+      rgba(59, 130, 246, 0) 60%
+    );
+  }
+  div:nth-child(4) {
+    background: radial-gradient(
+      circle at center,
+      rgba(202, 138, 4, 0.76),
+      rgba(253, 224, 71, 0) 60%
+    );
+  }
+}
+
+@media (max-width: 1280px) {
+  #gradient-backdrop div {
+    width: 500px;
+    height: 500px;
+    filter: blur(150px);
+  }
+}
+
+@media (max-width: 720px) {
+  #gradient-backdrop div {
+    width: 300px;
+    height: 300px;
+    filter: blur(100px);
+  }
+}
