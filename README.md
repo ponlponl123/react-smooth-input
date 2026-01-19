@@ -8,18 +8,31 @@ A smooth, modern React component library built for Next.js.
 npm install react-smooth-input
 ```
 
+## Setup (Tailwind CSS)
+
+To ensure styles are applied correctly, add the library to your `tailwind.config.js` or `tailwind.config.ts`:
+
+```js
+// tailwind.config.ts
+export default {
+  content: [
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    // Add this line so Tailwind scans the library files
+    "./node_modules/react-smooth-input/dist/**/*.{js,mjs}",
+  ],
+  // ...
+};
+```
+
 ## Usage
 
 ```tsx
-import { Button, Input } from "react-smooth-input";
+import { Input } from "react-smooth-input";
 
 export default function Page() {
   return (
     <div className="p-4 flex flex-col gap-4">
       <Input label="Username" placeholder="Enter your username" />
-      <Button variant="primary" onClick={() => console.log("Clicked")}>
-        Sign Up
-      </Button>
     </div>
   );
 }
