@@ -1,6 +1,5 @@
 "use client";
 
-import { setCookie } from "cookies-next";
 import packageJson from "../../package.json";
 import Button from "./button";
 import Chip from "./chip";
@@ -27,18 +26,7 @@ function Header() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Button
-              isOnlyIcon={true}
-              onClick={() => {
-                document.documentElement.classList.toggle("dark");
-                const isDark =
-                  document.documentElement.classList.contains("dark");
-                const theme = isDark ? "dark" : "light";
-                setCookie("theme", theme);
-                localStorage.setItem("theme", theme);
-              }}
-              className="smooth-transition p-2 h-max gap-2 hover:bg-black/20 hover:dark:bg-white/20 rounded-full border-2 dark:border-white/40 border-black/20 hover:opacity-80"
-            >
+            <Button className="smooth-transition p-2 h-max gap-2 hover:bg-black/20 hover:dark:bg-white/20 rounded-full border-2 dark:border-white/40 border-black/20 hover:opacity-80">
               <svg
                 height="16"
                 aria-hidden="true"
@@ -60,7 +48,7 @@ function Header() {
               const isDark =
                 document.documentElement.classList.contains("dark");
               const theme = isDark ? "dark" : "light";
-              setCookie("theme", theme);
+              document.cookie = `theme=${theme}; path=/; max-age=31536000`;
               localStorage.setItem("theme", theme);
             }}
             className="smooth-transition p-2 hover:bg-gray-900 hover:dark:bg-amber-300 h-max rounded-full border-2 dark:border-white/40 border-black/20 hover:opacity-80"
