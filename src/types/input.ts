@@ -27,6 +27,7 @@ export interface MarkupInputClassNames {
 export interface InputClassNames {
   container?: string;
   label?: string;
+  base?: string;
   inputWrapper?: string;
   markupInput?: MarkupInputClassNames;
   legacyInput?: string;
@@ -38,6 +39,8 @@ export type InputType = "text" | "password";
 export interface InputComponentProps extends InputProps {
   fontStyle?: InputFontStyle;
   classNames?: InputClassNames;
+  startContent?: React.ReactNode;
+  endContent?: React.ReactNode;
 }
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {

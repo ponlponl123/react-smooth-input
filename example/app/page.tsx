@@ -1,7 +1,9 @@
 "use client";
 
 // Import from the source during development
+import Chip from "@/components/chip";
 import Code from "@/components/code";
+import { MagnifyingGlassIcon } from "@phosphor-icons/react/dist/ssr";
 import { SetStateAction, useState } from "react";
 import { Input } from "../../src/index";
 
@@ -13,10 +15,10 @@ export default function Home() {
   return (
     <main className="max-w-150 mx-auto p-5 flex flex-col gap-5">
       <div className="p-6 border-2 mb-6 smooth-transition">
-        <h2>Normal Input</h2>
-        <div className="text-sm text-gray-600">
+        <h1>Normal Input</h1>
+        <p className="text-sm text-gray-600">
           This is a standard HTML input for comparison.
-        </div>
+        </p>
         <div className="mt-2.5">
           <input
             type="text"
@@ -27,7 +29,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className="w-full max-w-xl rounded-2xl p-6 mx-auto bg-black/10 dark:bg-white/10 backdrop-blur-2xl backdrop-saturate-200">
+      <div className="w-full max-w-xl rounded-2xl p-6 mx-auto bg-black/5 dark:bg-white/10 backdrop-blur-2xl backdrop-saturate-200">
         <h1 className="text-xl font-bold">With react-smooth-input</h1>
         <p className="mt-2 text-sm opacity-70">
           Experience the future of text input with react-smooth-input! Enjoy
@@ -131,6 +133,65 @@ export default function Home() {
       </section>
 
       <section className="my-6">
+        <h1 className="font-bold text-2xl mb-4">With icon</h1>
+        <p className="text-sm opacity-40 mb-4">
+          Easily add icons or any other elements to the start or end of the
+          input field.
+        </p>
+        <Code
+          language="tsx"
+          showLineNumbers={false}
+          wrapLines={false}
+          darkMode={true}
+          codeString={`<Input
+  ...
+  startContent={<icon />}
+  endContent={<icon />}
+/>`}
+        />
+        <br />
+        <div className="w-full relative border-2 border-black/10 dark:border-white/10 rounded-3xl px-12 py-24">
+          <div className="absolute top-2 left-2">
+            <Chip>startContent</Chip>
+          </div>
+          <Input
+            placeholder="Type here..."
+            type="text"
+            startContent={<MagnifyingGlassIcon weight="bold" size={16} />}
+          />
+        </div>
+        <br />
+        <div className="w-full relative border-2 border-black/10 dark:border-white/10 rounded-3xl px-12 py-24">
+          <div className="absolute top-2 right-2">
+            <Chip>endContent</Chip>
+          </div>
+          <Input
+            placeholder="Type here..."
+            type="text"
+            endContent={<MagnifyingGlassIcon weight="bold" size={16} />}
+          />
+        </div>
+        <br />
+        <div className="w-full relative border-2 border-black/10 dark:border-white/10 rounded-3xl px-12 py-24">
+          <div className="absolute top-2 left-2">
+            <Chip>startContent</Chip>
+          </div>
+          <div className="absolute top-2 left-1/2 -translate-x-1/2">
+            <Chip>+</Chip>
+          </div>
+          <div className="absolute top-2 right-2">
+            <Chip>endContent</Chip>
+          </div>
+          <Input
+            placeholder="Type here..."
+            type="text"
+            startContent={<span className="text-sm">https://</span>}
+            endContent={<span className="text-sm">.com</span>}
+          />
+        </div>
+      </section>
+
+      <section className="my-6">
         <h1 className="font-bold text-2xl mb-4">Custom Styles</h1>
         <p className="text-sm opacity-40 mb-4">
           Customize the appearance of the Input component using the classNames
@@ -176,8 +237,7 @@ export default function Home() {
             container: "group",
             label:
               "text-transparent bg-gradient-to-r from-green-500 to-pink-500 bg-clip-text font-bold w-max",
-            inputWrapper:
-              "bg-gradient-to-r from-purple-500/20 to-green-500/20 !rounded-full p-1 smooth-transition",
+            base: "bg-gradient-to-r from-purple-500/20 to-green-500/20 !rounded-full p-1 smooth-transition",
             markupInput: {
               base: "rounded-xl",
               placeholder: {
@@ -204,8 +264,7 @@ export default function Home() {
           }
           classNames={{
             container: "group",
-            inputWrapper:
-              "bg-white dark:bg-black border-2 !border-black dark:!border-white !rounded-md !p-0 smooth-transition",
+            base: "bg-white dark:bg-black border-2 !border-black dark:!border-white !rounded-md !p-0 smooth-transition",
             legacyInput:
               "!bg-white dark:!bg-gray-900 rounded-xl !border-0 !caret-pink-500",
           }}
