@@ -1,3 +1,5 @@
+import { TargetAndTransition, Transition, VariantLabels } from "motion/react";
+
 export interface MarkupInputClassNames {
   base?: string;
   container?: string;
@@ -43,8 +45,20 @@ export interface InputComponentProps extends InputProps {
   endContent?: React.ReactNode;
 }
 
+export type MotionVariant = VariantLabels | TargetAndTransition;
+
+export interface InputMotionConfig {
+  initial?: boolean | MotionVariant | undefined;
+  animate?: boolean | MotionVariant | undefined;
+  exit?: MotionVariant | undefined;
+  transition?: Transition<any> | undefined;
+}
+
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
+  label?: string | React.ReactNode;
+  customMotion?: {
+    char?: InputMotionConfig;
+  };
   placeholder?: string;
   type: InputType;
 }

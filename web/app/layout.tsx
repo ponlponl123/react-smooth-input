@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Baloo_2, DynaPuff } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import { ThemeBody } from "./ThemeBody";
 
@@ -11,6 +12,18 @@ export const metadata: Metadata = {
   title: "Smooth Input Playground",
   description: "Dev playground for react-smooth-input library",
 };
+const dynaPuff = DynaPuff({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+  variable: "--font-display",
+});
+const baloo2 = Baloo_2({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+  variable: "--font-sans",
+});
 
 export default function RootLayout({
   children,
@@ -48,8 +61,8 @@ export default function RootLayout({
           }}
         />
       </head>
-      <ThemeBody>
-        <NextTopLoader />
+      <ThemeBody className={`${dynaPuff.className} ${baloo2.className}`}>
+        <NextTopLoader showSpinner={false} color="#ff637e" />
         <Header />
         <div
           id="gradient-backdrop"

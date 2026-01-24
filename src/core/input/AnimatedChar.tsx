@@ -1,14 +1,19 @@
 "use client";
 
-import clsx from "clsx";
 import { motion } from "motion/react";
 import React, { memo, useRef } from "react";
+import { twMerge } from "tailwind-merge";
+import { InputMotionConfig } from "../../types/input";
 
 export interface AnimatedCharProps {
   char: string;
   charId: number;
   className?: string;
   style?: React.CSSProperties;
+  initial?: InputMotionConfig["initial"];
+  animate?: InputMotionConfig["animate"];
+  exit?: InputMotionConfig["exit"];
+  transition?: InputMotionConfig["transition"];
 }
 
 /**
@@ -20,25 +25,31 @@ export const AnimatedChar = memo(function AnimatedChar({
   charId,
   className,
   style,
+  initial,
+  animate,
+  exit,
+  transition,
 }: AnimatedCharProps) {
   // Pre-compute exit rotation to avoid Math.random() on each render
   const exitRotation = useRef((charId % 40) - 20);
 
   return (
     <motion.span
-      className={clsx("inline-block", className)}
+      className={twMerge("inline-block", className)}
       style={{
         minWidth: char === " " ? "0.25em" : "auto",
         ...style,
       }}
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{
-        opacity: 0,
-        y: 16,
-        rotateZ: exitRotation.current,
-      }}
-      transition={{ duration: 0.12 }}
+      initial={initial ?? { opacity: 0, y: 16 }}
+      animate={animate ?? { opacity: 1, y: 0 }}
+      exit={
+        exit ?? {
+          opacity: 0,
+          y: 16,
+          rotateZ: exitRotation.current,
+        }
+      }
+      transition={transition ?? { duration: 0.12 }}
     >
       {char}
     </motion.span>

@@ -63,7 +63,7 @@ function Step({
             {React.isValidElement(child) &&
               child.props &&
               child.props["data-title"] && (
-                <h1 className={clsx("font-medium", classNames?.step?.title)}>
+                <h1 className={clsx("font-semibold", classNames?.step?.title)}>
                   {child.props["data-title"]}
                 </h1>
               )}

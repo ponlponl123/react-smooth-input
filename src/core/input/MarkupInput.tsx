@@ -1,10 +1,11 @@
 "use client";
 
-import clsx from "clsx";
 import { AnimatePresence, motion } from "motion/react";
 import React, { forwardRef, useLayoutEffect, useMemo, useRef } from "react";
+import { twMerge } from "tailwind-merge";
 import {
   InputFontStyle,
+  InputProps,
   InputType,
   MarkupInputClassNames,
 } from "../../types/input";
@@ -22,6 +23,7 @@ const MarkupInput = forwardRef<
     selectionStart?: number;
     selectionEnd?: number;
     classNames?: MarkupInputClassNames;
+    customMotion?: InputProps["customMotion"];
     placeholder?: string;
   }
 >(
@@ -36,6 +38,7 @@ const MarkupInput = forwardRef<
       selectionEnd = 0,
       classNames,
       placeholder,
+      customMotion,
     },
     ref,
   ) => {
@@ -168,21 +171,23 @@ const MarkupInput = forwardRef<
     return (
       <div
         ref={ref}
-        className={clsx(
+        className={twMerge(
           "relative w-full h-full rounded-md overflow-hidden",
           classNames?.container,
         )}
+        data-name="markup-input-container"
       >
         <div
-          className={clsx(
+          className={twMerge(
             "w-full h-full relative flex items-center justify-start",
             classNames?.base,
           )}
+          data-name="markup-input-base"
         >
           {value === "" && !focused && placeholder && (
             <motion.div
               layoutId={`${layoutIdBase}-input-placeholder`}
-              className={clsx(
+              className={twMerge(
                 "h-full absolute top-0 left-0 flex items-center justify-start overflow-hidden",
                 classNames?.placeholder?.wrapper,
               )}
@@ -190,15 +195,17 @@ const MarkupInput = forwardRef<
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.32 }}
+              data-name="markup-input-placeholder-wrapper"
             >
               <span
-                className={clsx(
+                className={twMerge(
                   "whitespace-nowrap text-ellipsis font-medium select-none pointer-events-none overflow-hidden opacity-20",
                   classNames?.placeholder?.text,
                 )}
                 style={{
                   ...inputFontStyle,
                 }}
+                data-name="markup-input-placeholder-text"
               >
                 {placeholder}
               </span>
@@ -206,7 +213,7 @@ const MarkupInput = forwardRef<
           )}
           <div
             ref={containerRef}
-            className={clsx(
+            className={twMerge(
               "w-full h-full relative flex items-center justify-start overflow-hidden",
               classNames?.content?.wrapper,
             )}
@@ -216,9 +223,10 @@ const MarkupInput = forwardRef<
               WebkitMaskImage: maskGradient,
               WebkitMaskComposite: maskGradient ? "source-in" : undefined,
             }}
+            data-name="markup-input-content-wrapper"
           >
             <div
-              className={clsx(
+              className={twMerge(
                 "h-full min-h-6 whitespace-nowrap",
                 classNames?.content?.value?.wrapper,
               )}
@@ -226,6 +234,7 @@ const MarkupInput = forwardRef<
                 transform: `translateX(${-scrollOffset}px)`,
                 transition: "transform 0.1s ease-out",
               }}
+              data-name="markup-input-content-value-wrapper"
             >
               <AnimatePresence initial={false} mode="popLayout">
                 {displayValue.split("").map((char, index) => (
@@ -234,6 +243,11 @@ const MarkupInput = forwardRef<
                     char={char}
                     charId={charIds[index]}
                     className={classNames?.content?.value?.text}
+                    data-name="markup-input-content-value-char"
+                    initial={customMotion?.char?.initial}
+                    animate={customMotion?.char?.animate}
+                    exit={customMotion?.char?.exit}
+                    transition={customMotion?.char?.transition}
                     style={inputFontStyle}
                   />
                 ))}
@@ -242,7 +256,7 @@ const MarkupInput = forwardRef<
             {focused && (
               <motion.div
                 layoutId={`${layoutIdBase}-input-cursor`}
-                className={clsx(
+                className={twMerge(
                   "absolute flex items-center justify-center",
                   isTextSelected
                     ? classNames?.cursor?.wrapper?.isTextSelected
@@ -259,6 +273,7 @@ const MarkupInput = forwardRef<
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.16 }}
+                data-name="markup-input-cursor-wrapper"
               >
                 <motion.div
                   initial={{ opacity: 0.2 }}
@@ -268,7 +283,7 @@ const MarkupInput = forwardRef<
                     repeat: Infinity,
                     repeatType: "reverse",
                   }}
-                  className={clsx(
+                  className={twMerge(
                     "w-full h-full outline",
                     isTextSelected
                       ? "bg-black/30 dark:bg-white/30 outline-black/30 dark:outline-white/30 rounded-[3px]"
@@ -277,6 +292,7 @@ const MarkupInput = forwardRef<
                       ? classNames?.cursor?.base?.isTextSelected
                       : classNames?.cursor?.base?.notSelected,
                   )}
+                  data-name="markup-input-cursor-base"
                 />
               </motion.div>
             )}

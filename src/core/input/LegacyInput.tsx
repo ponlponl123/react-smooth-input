@@ -1,7 +1,7 @@
 "use client";
 
-import clsx from "clsx";
 import React, { forwardRef, useCallback, useEffect, useRef } from "react";
+import { twMerge } from "tailwind-merge";
 import { InputFontStyle, InputProps } from "../../types/input";
 
 const LegacyInput = forwardRef<
@@ -91,7 +91,8 @@ const LegacyInput = forwardRef<
 
     return (
       <input
-        className={clsx(
+        data-name="legacy-input"
+        className={twMerge(
           "opacity-0 absolute w-full h-full z-1 border border-transparent outline-none bg-transparent p-0 m-0 box-border cursor-text caret-transparent pointer-events-auto touch-auto",
           classNames,
         )}

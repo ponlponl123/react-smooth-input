@@ -1,8 +1,8 @@
 "use client";
 
-import clsx from "clsx";
 import { AnimatePresence } from "motion/react";
 import React from "react";
+import { twMerge } from "tailwind-merge";
 import LegacyInput from "../core/input/LegacyInput";
 import MarkupInput from "../core/input/MarkupInput";
 import { InputComponentProps } from "../types/input";
@@ -28,6 +28,7 @@ export const Input = ({
   placeholder,
   startContent,
   endContent,
+  customMotion,
 }: InputComponentProps) => {
   const [focused, setFocused] = React.useState(false);
   const [internalValue, setInternalValue] = React.useState<string>(
@@ -47,29 +48,43 @@ export const Input = ({
 
   return (
     <div
-      className={clsx("flex flex-col gap-1", className, classNames?.container)}
+      className={twMerge(
+        "flex flex-col gap-1",
+        className,
+        classNames?.container,
+      )}
+      data-name="input-container"
     >
       {label && (
-        <label className={clsx("text-sm text-[#666]", classNames?.label)}>
+        <label
+          className={twMerge("text-sm text-[#666]", classNames?.label)}
+          data-name="input-label"
+        >
           {label}
         </label>
       )}
       <div
-        className={clsx(
+        className={twMerge(
           "relative box-border flex h-auto w-full cursor-text select-none items-center gap-2 rounded-xl border-2 border-transparent dark:bg-white/10 bg-black/10 px-2 py-1",
           "smooth-transition hover:bg-black/5 dark:hover:bg-white/5 hover:border-black/10 dark:hover:border-white/10",
-          focused &&
-            "bg-black/5! dark:bg-white/5! border-black/10! dark:border-white/10!",
+          "data-[focused=true]:bg-black/5! data-[focused=true]:dark:bg-white/5! data-[focused=true]:border-black/10! data-[focused=true]:dark:border-white/10!",
           classNames?.base,
         )}
+        data-name="input-base"
+        data-focused={focused}
         style={style}
       >
-        {startContent && <div className="mr-1">{startContent}</div>}
+        {startContent && (
+          <div className="mr-1" data-name="input-start-content">
+            {startContent}
+          </div>
+        )}
         <div
-          className={clsx(
+          className={twMerge(
             "relative flex flex-1 min-w-0 overflow-hidden min-h-[1.5em] box-border",
             classNames?.inputWrapper,
           )}
+          data-name="input-wrapper"
         >
           <AnimatePresence>
             <MarkupInput
@@ -82,6 +97,7 @@ export const Input = ({
               selectionEnd={selectionEnd}
               classNames={classNames?.markupInput}
               placeholder={placeholder}
+              customMotion={customMotion}
             />
           </AnimatePresence>
           <LegacyInput
@@ -98,7 +114,11 @@ export const Input = ({
             classNames={classNames?.legacyInput}
           />
         </div>
-        {endContent && <div className="ml-1">{endContent}</div>}
+        {endContent && (
+          <div className="ml-1" data-name="input-end-content">
+            {endContent}
+          </div>
+        )}
       </div>
     </div>
   );

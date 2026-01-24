@@ -19,7 +19,7 @@ export default function Home() {
           <span>Modern React Component Library</span>
         </div>
 
-        <h1 className="text-6xl font-bold mb-6 bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        <h1 className="text-6xl font-bold mb-6 bg-linear-to-br from-sky-200 to-rose-300 dark:from-indigo-400 dark:to-rose-700 bg-clip-text text-transparent">
           React Smooth Input
         </h1>
 
@@ -28,7 +28,7 @@ export default function Home() {
           beautiful animations and seamless user experience.
         </p>
         <Link href="/installation">
-          <Button className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700! text-white text-sm! rounded-full! font-medium group">
+          <Button className="inline-flex items-center gap-2 px-6 py-3 bg-rose-400 hover:bg-rose-500! text-white text-sm! rounded-full! font-medium group">
             Installation Guide
             <ArrowRightIcon
               weight="bold"
