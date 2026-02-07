@@ -65,7 +65,7 @@ function Page() {
                   language: "shell",
                 },
                 {
-                  codeString: "bun install react-smooth-input",
+                  codeString: "bun add react-smooth-input",
                   title: "bun",
                   language: "shell",
                 },

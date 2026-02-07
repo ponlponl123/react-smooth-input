@@ -21,7 +21,7 @@ function Page() {
           perfectly.
         </p>
         <Link href="/installation">
-          <Button className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700! text-white text-sm! rounded-full! font-medium group">
+          <Button className="inline-flex items-center gap-2 px-6 py-3 bg-rose-600 hover:bg-rose-700! text-white text-sm! rounded-full! font-medium group">
             Installation Guide
             <ArrowRightIcon
               weight="bold"

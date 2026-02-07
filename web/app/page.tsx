@@ -156,63 +156,66 @@ export default function Home() {
     <main className="max-w-3xl mx-auto p-5">
       <div className="flex flex-col items-center text-center pb-20 px-4">
         <AnimatePresence>
-          <motion.div
-            initial={{ opacity: 0, y: -16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.48,
-              type: "spring",
-              bounce: 0.3,
-            }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-indigo-950/40 text-blue-600 text-sm font-medium mb-6"
-          >
-            <SparkleIcon weight="fill" size={16} />
-            <span>Modern React Component Library</span>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: -16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.48,
-              delay: 0.1,
-              type: "spring",
-              bounce: 0.3,
-            }}
-            ref={wrapperRef}
-            className="flex flex-1 gap-2.5 items-center relative mb-6 justify-center"
-          >
-            <h1
-              ref={titleref}
-              className="font-extrabold text-5xl sm:text-6xl whitespace-nowrap leading-tight max-w-4xl"
-            >
-              React Smooth{" "}
-            </h1>
-            <strong
-              ref={titleref2}
-              className="font-extrabold text-5xl sm:text-6xl whitespace-nowrap leading-tight max-w-4xl gradient-char"
-            >
-              Text
-            </strong>
+          {[
             <motion.div
-              ref={cursor}
-              animate={{ opacity: [0, 0.4, 0] }}
+              key="hero-pill"
+              initial={{ opacity: 0, y: -16 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 1.2,
-                repeat: Infinity,
-                repeatType: "reverse",
-                ease: "linear",
+                duration: 0.48,
+                type: "spring",
+                bounce: 0.3,
               }}
-              className="w-1.5 h-12 shrink-0 ml-1"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-indigo-950/40 text-blue-600 text-sm font-medium mb-6"
             >
+              <SparkleIcon weight="fill" size={16} />
+              <span>Modern React Component Library</span>
+            </motion.div>,
+            <motion.div
+              key="hero-title"
+              initial={{ opacity: 0, y: -16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.48,
+                delay: 0.1,
+                type: "spring",
+                bounce: 0.3,
+              }}
+              ref={wrapperRef}
+              className="flex flex-1 gap-2.5 items-center relative mb-6 justify-center"
+            >
+              <h1
+                ref={titleref}
+                className="font-extrabold text-5xl sm:text-6xl whitespace-nowrap leading-tight max-w-4xl"
+              >
+                React Smooth{" "}
+              </h1>
+              <strong
+                ref={titleref2}
+                className="font-extrabold text-5xl sm:text-6xl whitespace-nowrap leading-tight max-w-4xl gradient-char"
+              >
+                Text
+              </strong>
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.48, delay: 1.6 }}
-                className="w-full h-full bg-rose-400 rounded-lg"
-              />
-            </motion.div>
-          </motion.div>
+                ref={cursor}
+                animate={{ opacity: [0, 0.4, 0] }}
+                transition={{
+                  duration: 1.2,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "linear",
+                }}
+                className="w-1.5 h-12 shrink-0 ml-1"
+              >
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.48, delay: 1.6 }}
+                  className="w-full h-full bg-rose-400 rounded-lg"
+                />
+              </motion.div>
+            </motion.div>,
+          ]}
         </AnimatePresence>
 
         <motion.p
@@ -261,7 +264,7 @@ export default function Home() {
                 language: "shell",
               },
               {
-                codeString: "bun install react-smooth-input",
+                codeString: "bun add react-smooth-input",
                 title: "bun",
                 language: "shell",
               },
