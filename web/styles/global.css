@@ -9,6 +9,26 @@
   transition: 0.24s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
+.gradient-char {
+  background-image: linear-gradient(
+    to bottom right,
+    var(--color-sky-200),
+    var(--color-rose-300)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+:is(.dark, .dark *) .gradient-char {
+  background-image: linear-gradient(
+    to bottom right,
+    var(--color-indigo-400),
+    var(--color-rose-700)
+  );
+}
+
 .classic-btn {
   @apply text-xs px-2 py-1 bg-black/10 border rounded-sm dark:bg-white/20 dark:border-white/20 hover:bg-black/15 active:opacity-60 hover:dark:bg-white/30 hover:dark:border-white/30 active:dark:brightness-75 active:dark:opacity-100;
 }
