@@ -1,11 +1,15 @@
 {
   "name": "react-smooth-input",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A smooth input component library for Next.js",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "homepage": "https://ponlponl123.github.io/react-smooth-input/",
+  "author": {
+    "name": "Ponlponl123",
+    "url": "https://github.com/Ponlponl123"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Ponlponl123/react-smooth-input.git"
@@ -44,7 +48,6 @@
     "component",
     "library"
   ],
-  "author": "Ponlponl123",
   "license": "MIT",
   "dependencies": {
     "clsx": "^2.1.1",

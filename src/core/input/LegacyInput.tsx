@@ -27,6 +27,12 @@ const LegacyInput = forwardRef<
       inputFontStyle,
       onChange,
       classNames,
+      onFocus: onInputFocus,
+      onBlur: onInputBlur,
+      onSelect: onInputSelect,
+      onKeyUp: onInputKeyUp,
+      onMouseUp: onInputMouseUp,
+      onTouchEnd: onInputTouchEnd,
       ...props
     },
     ref,
@@ -34,7 +40,6 @@ const LegacyInput = forwardRef<
     const internalRef = useRef<HTMLInputElement>(null);
     const inputRef = (ref as React.RefObject<HTMLInputElement>) || internalRef;
 
-    // Unified selection update function
     const updateSelection = useCallback(() => {
       const target = inputRef.current;
       if (target && onSelectionChange) {
@@ -42,7 +47,6 @@ const LegacyInput = forwardRef<
       }
     }, [onSelectionChange, inputRef]);
 
-    // Poll for selection changes on iOS (fixes iOS selection issues)
     useEffect(() => {
       const target = inputRef.current;
       if (!target) return;
@@ -65,7 +69,6 @@ const LegacyInput = forwardRef<
         animationFrameId = requestAnimationFrame(checkSelection);
       };
 
-      // Start polling when focused
       const handleFocus = () => {
         animationFrameId = requestAnimationFrame(checkSelection);
       };
@@ -77,7 +80,6 @@ const LegacyInput = forwardRef<
       target.addEventListener("focus", handleFocus);
       target.addEventListener("blur", handleBlur);
 
-      // If already focused, start polling
       if (document.activeElement === target) {
         handleFocus();
       }
@@ -91,13 +93,13 @@ const LegacyInput = forwardRef<
 
     return (
       <input
+        {...props}
         data-name="legacy-input"
         className={twMerge(
           "opacity-0 absolute w-full h-full z-1 border border-transparent outline-none bg-transparent p-0 m-0 box-border cursor-text caret-transparent pointer-events-auto touch-auto",
           classNames,
         )}
         style={{
-          // Ensure the input is interactable on iOS
           WebkitUserSelect: "text",
           userSelect: "text",
           WebkitTouchCallout: "default",
@@ -108,16 +110,35 @@ const LegacyInput = forwardRef<
         placeholder={props.placeholder}
         type={type}
         onChange={(e) => {
-          onValueChange(e.target.value);
+          if (onValueChange) {
+            onValueChange(e.target.value);
+          }
           onChange?.(e);
         }}
-        onFocus={() => onFocusChange(true)}
-        onBlur={() => onFocusChange(false)}
-        onSelect={updateSelection}
-        onKeyUp={updateSelection}
-        onMouseUp={updateSelection}
-        onTouchEnd={updateSelection}
-        {...props}
+        onFocus={(e) => {
+          if (onFocusChange) {
+            onFocusChange(true);
+          }
+          onInputFocus?.(e);
+        }}
+        onBlur={(e) => {
+          if (onFocusChange) {
+            onFocusChange(false);
+          }
+          onInputBlur?.(e);
+        }}
+        onSelect={(e) => {
+          (updateSelection(), onInputSelect?.(e));
+        }}
+        onKeyUp={(e) => {
+          (updateSelection(), onInputKeyUp?.(e));
+        }}
+        onMouseUp={(e) => {
+          (updateSelection(), onInputMouseUp?.(e));
+        }}
+        onTouchEnd={(e) => {
+          (updateSelection(), onInputTouchEnd?.(e));
+        }}
       />
     );
   },

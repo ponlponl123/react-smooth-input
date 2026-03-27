@@ -29,6 +29,7 @@ export const Input = ({
   startContent,
   endContent,
   customMotion,
+  ...props
 }: InputComponentProps) => {
   const [focused, setFocused] = React.useState(false);
   const [internalValue, setInternalValue] = React.useState<string>(
@@ -101,6 +102,7 @@ export const Input = ({
             />
           </AnimatePresence>
           <LegacyInput
+            {...props}
             type={type}
             value={String(value)}
             inputFontStyle={fontStyle}

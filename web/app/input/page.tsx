@@ -5,6 +5,7 @@ import CustomStyle from "./custom-style";
 import EasyToUse from "./easy-to-use";
 import Example from "./example";
 import Intro from "./intro";
+import Listening from "./listening";
 import WithIcon from "./with-icon";
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
       <Example />
       <EasyToUse />
       <WithIcon />
+      <Listening />
       <CustomStyle />
       <API />
     </main>
