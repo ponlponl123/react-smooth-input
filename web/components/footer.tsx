@@ -51,8 +51,17 @@ function Footer() {
           </Link>
         </div>
       </section>
-      <span className="block text-xs text-center mx-auto mb-12 opacity-15 font-light tracking-widest">
-        © {new Date().getFullYear()} ponlponl123. All rights reserved.
+      <div className="flex gap-2.5 justify-center opacity-15 mx-auto mb-12 items-center">
+        <span className="block text-xs text-center font-light tracking-widest">
+          Now it's {new Date().getFullYear()} - Ponlponl123.com is still alive!
+        </span>
+        ·
+        <span className="block text-xs text-center font-light tracking-widest">
+          This project is under MIT License
+        </span>
+      </div>
+      <span className="block text-base text-center font-light tracking-widest uppercase font-mono opacity-5">
+        Innovative / Human / Open / Earth
       </span>
     </footer>
   );
