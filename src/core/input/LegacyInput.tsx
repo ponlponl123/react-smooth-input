@@ -1,6 +1,12 @@
 "use client";
 
-import React, { forwardRef, useCallback, useEffect, useRef } from "react";
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from "react";
 import { twMerge } from "tailwind-merge";
 import { InputFontStyle, InputProps } from "../../types/input";
 
@@ -38,17 +44,18 @@ const LegacyInput = forwardRef<
     ref,
   ) => {
     const internalRef = useRef<HTMLInputElement>(null);
-    const inputRef = (ref as React.RefObject<HTMLInputElement>) || internalRef;
+
+    useImperativeHandle(ref, () => internalRef.current!, []);
 
     const updateSelection = useCallback(() => {
-      const target = inputRef.current;
+      const target = internalRef.current;
       if (target && onSelectionChange) {
         onSelectionChange(target.selectionStart ?? 0, target.selectionEnd ?? 0);
       }
-    }, [onSelectionChange, inputRef]);
+    }, [onSelectionChange]);
 
     useEffect(() => {
-      const target = inputRef.current;
+      const target = internalRef.current;
       if (!target) return;
 
       let animationFrameId: number;
@@ -89,7 +96,7 @@ const LegacyInput = forwardRef<
         target.removeEventListener("focus", handleFocus);
         target.removeEventListener("blur", handleBlur);
       };
-    }, [updateSelection, inputRef]);
+    }, [updateSelection]);
 
     return (
       <input
@@ -105,7 +112,7 @@ const LegacyInput = forwardRef<
           WebkitTouchCallout: "default",
           ...inputFontStyle,
         }}
-        ref={inputRef}
+        ref={internalRef}
         value={value}
         placeholder={props.placeholder}
         type={type}
